@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+    <!-- TODO: Update blank fragment layout -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ECEBEB"
+    android:orientation="vertical"
+    tools:context=".views.IPFragment">
+
+    <TextView
+        android:id="@+id/textView12"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#4CAF50"
+        android:paddingLeft="@dimen/fab_margin"
+        android:paddingTop="30dp"
+        android:paddingBottom="10dp"
+        android:text="Indicar"
+        android:textSize="30sp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:orientation="horizontal"
+        android:padding="?android:attr/scrollbarSize">
+
+        <EditText
+            android:id="@+id/etFIIP"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:autofillHints=""
+            android:ems="10"
+            android:hint="dd/mm/aaaa - inicial"
+            android:inputType="date" />
+
+        <ImageButton
+            android:id="@+id/ibFI"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/fecha"
+            android:scaleType="fitXY"
+            android:scaleX="0.5" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:orientation="horizontal"
+        android:padding="?android:attr/scrollbarSize">
+
+        <EditText
+            android:id="@+id/etHI"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="hh:mm - inicial"
+            android:inputType="time" />
+
+        <ImageButton
+            android:id="@+id/ibHI"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/reloj"
+            android:scaleType="fitXY"
+            android:scaleX="0.5" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llFF"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:orientation="horizontal"
+        android:padding="?android:attr/scrollbarSize">
+
+        <EditText
+            android:id="@+id/etFF"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="dd/mm/aaaa - final"
+            android:inputType="date" />
+
+        <ImageButton
+            android:id="@+id/ibFF"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/fecha"
+            android:scaleType="fitXY"
+            android:scaleX="0.5" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llHF"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:orientation="horizontal"
+        android:padding="?android:attr/scrollbarSize">
+
+        <EditText
+            android:id="@+id/etHF"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="hh:mm - final"
+            android:inputType="time" />
+
+        <ImageButton
+            android:id="@+id/ibHF"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/reloj"
+            android:scaleType="fitXY"
+            android:scaleX="0.5" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvVacas"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/fab_margin"
+        android:text="Elija el animal"
+        android:textSize="24sp" />
+
+    <Spinner
+        android:id="@+id/spVacas"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/fab_margin" />
+
+</LinearLayout>

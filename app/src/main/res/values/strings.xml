@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">SegETRodeo</string>
+    <string name="action_settings">Settings</string>
+    <string name="establecimiento">Establecimiento de Prueba</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="title_activity_presentacion">Presentación</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">SEGUIMIENTO\nDE RODEOS</string>
+    <string name="Fecha">Indique fecha de inicio</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancelar</string>
+    <string name="cerrar">Cerrar</string>
+</resources>

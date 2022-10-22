@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimaryLight">#c5ecb8</color>
+    <color name="colorPrimary">#96d282</color>
+    <color name="colorPrimaryDark">#3d7019</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccentDark">#91103c</color>
+    <color name="colorSecondary">#e28d3e</color>
+    <color name="colorSecondaryDark">#8c5726</color>
+    <color name="fondoActivity">#dddddd</color>
+    <color name="black_overlay">#66000000</color>
+</resources>
