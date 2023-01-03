@@ -11,18 +11,71 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#ECEBEB"
         android:orientation="vertical">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Vecinos más cercanos" />
+            android:background="#4CAF50"
+            android:paddingLeft="@dimen/fab_margin"
+            android:paddingTop="30dp"
+            android:paddingBottom="10dp"
+            android:text="Vecinos más cercanos"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:orientation="horizontal"
+            android:padding="@dimen/fab_margin">
+
+            <EditText
+                android:id="@+id/etFechaVecinos"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:editable="false"
+                android:ems="10"
+                android:inputType="date|textPersonName" />
+
+            <ImageButton
+                android:id="@+id/ibFechaVecinos"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginRight="20px"
+                android:background="@drawable/fecha"
+                android:scaleX="0.7"
+                android:scaleY="0.7" />
+
+            <EditText
+                android:id="@+id/etHoraVecinos"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:editable="false"
+                android:ems="10"
+                android:inputType="date|textPersonName" />
+
+            <ImageButton
+                android:id="@+id/ibHoraVecinos"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@drawable/reloj"
+                android:scaleX="0.7"
+                android:scaleY="0.7" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/textView2"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Cantidad" />
+            android:padding="@dimen/fab_margin"
+            android:text="Cantidad"
+            android:textSize="24sp" />
 
         <EditText
             android:id="@+id/tvCantidadVecinos"
@@ -30,13 +83,17 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="0"
-            android:inputType="number" />
+            android:inputType="number"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/textView3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Distancia" />
+            android:padding="@dimen/fab_margin"
+            android:text="Distancia"
+            android:textSize="24sp" />
 
         <EditText
             android:id="@+id/tvDistanciaVecinos"
@@ -44,55 +101,10 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="0"
-            android:inputType="number" />
+            android:inputType="number"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <EditText
-                android:id="@+id/etFechaVecinos"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:editable="false"
-                android:ems="10"
-                android:inputType="textPersonName" />
-
-            <ImageButton
-                android:id="@+id/ibFechaVecinos"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:scaleType="fitXY"
-                android:scaleX="0.5"
-                android:src="@drawable/fecha" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <EditText
-                android:id="@+id/etHoraVecinos"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:editable="false"
-                android:ems="10"
-                android:inputType="textPersonName" />
-
-            <ImageButton
-                android:id="@+id/ibHoraVecinos"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:scaleType="fitXY"
-                android:scaleX="0.5"
-                android:src="@drawable/reloj" />
-        </LinearLayout>
     </LinearLayout>
 
 </FrameLayout>

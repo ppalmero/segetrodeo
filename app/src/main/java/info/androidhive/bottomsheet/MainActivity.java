@@ -76,6 +76,7 @@ public class MainActivity extends AppCompatActivity implements IPFragment.IPDial
     private int tiempoActual;
     private int cantTiempos;
     Eventos eventosListener;
+    Teselado t;
 
     /***fin circle view ***/
 
@@ -89,9 +90,7 @@ public class MainActivity extends AppCompatActivity implements IPFragment.IPDial
         setContentView(R.layout.activity_main);
         //ButterKnife.bind(this);
 
-        //obtenerDatos();
-        //inicializarEstructura();
-
+        t = (Teselado) findViewById(R.id.teseladoView);
         // Capture our button from layout
         ImageButton btnInicio = findViewById(R.id.btnInicio);
         // Register the onClick listener with the implementation above
@@ -183,10 +182,8 @@ public class MainActivity extends AppCompatActivity implements IPFragment.IPDial
         CallWS cws = new CallWS();
 
         tiempoActual = -1;
-        String resultadoJSON = cws.requestWS(Consultas.INICIO, getApplicationContext());
+        String resultadoJSON = cws.requestWSsConsultas(Consultas.INICIO, null, null, null, null, getApplicationContext());
         if (resultadoJSON.contains("error en ws")){
-            /*IPFragment newFragment = new IPFragment();
-            newFragment.show(getSupportFragmentManager(), "ip");*/
             Toast toast = Toast.makeText(getApplicationContext(), "La comunicación con el servidor falló: " + resultadoJSON, Toast.LENGTH_LONG);
             toast.show();
         } else {
@@ -195,15 +192,13 @@ public class MainActivity extends AppCompatActivity implements IPFragment.IPDial
                 //cargarPosicionInicial(reader);
                 //cantTiempos = reader.getInt("Movimientos") - 2;
                 JSONObject puntos = reader.getJSONObject("Puntos");
+                cantTiempos = reader.getInt("Movimientos");
                 Map<Integer, Vaca> vacas = new HashMap<>();
                 for (int i = 0; i < puntos.length(); i++) {
                     JSONObject vaca = puntos.getJSONObject("Punto" + i);
                     vacas.put(i, new Vaca(vaca.getInt("x"), vaca.getInt("y")));
                 }
-                /*sheetBehavior = BottomSheetBehavior.from(layoutBottomSheet);
-                sheetBehavior.setHideable(false);
-                sheetBehavior.setSkipCollapsed(false);*/
-                Teselado t = (Teselado) findViewById(R.id.teseladoView);//((LinearLayout)((CardView)layoutBottomSheet.getChildAt(1)).getChildAt(0)).getChildAt(0);
+                //Teselado t = (Teselado) findViewById(R.id.teseladoView);
                 t.setVacas(vacas);
                 t.drawVacas(true);
                 t.setAction(Consultas.CLEAR);//Para poder elegir vaca, antes no funcionaba
@@ -215,38 +210,12 @@ public class MainActivity extends AppCompatActivity implements IPFragment.IPDial
 
                     @Override
                     public void onVacaChosen(int id) {
-                        CallWS cws = new CallWS();
-                        Map<String, Integer> parametrosVacas = new HashMap<>();
-                        parametrosVacas.put("vaca", id);
-                        String resultadoJSON = cws.requestWSsConsultas(Consultas.DATOSVACA, null, null, null, parametrosVacas, getApplicationContext());
-                        if (resultadoJSON.contains("error en ws")){
-                            Toast toast = Toast.makeText(getApplicationContext(), "La comunicación con el servidor falló: " + resultadoJSON, Toast.LENGTH_LONG);
-                            toast.show();
-                        } else {
-                            try {
-                                JSONObject vaca = new JSONObject(resultadoJSON);
-
-                                FichaFragment newFragment = new FichaFragment();
-                                Bundle args = new Bundle();
-
-                                args.putString("vaca", vaca.toString());
-                                newFragment.setArguments(args);
-                                newFragment.show(getSupportFragmentManager(), "ficha");
-
-                            } catch (JSONException e) {
-                                Toast toast = Toast.makeText(getApplicationContext(), "JSON Malformado " + e.getMessage(), Toast.LENGTH_LONG);
-                                toast.show();
-                            }
-                        }
+                        vacaChosen(id);
                     }
 
                     @Override
                     public void onComederoChosen(int idComedero) {
-                        DialogFragment newFragment = new VecinosFragment();
-                        Bundle args = new Bundle();
-                        args.putInt("idComedero", idComedero);
-                        newFragment.setArguments(args);
-                        newFragment.show(getSupportFragmentManager(), "vecinoscomederos");
+                        comederoChosen(idComedero);
                     }
 
                 });
@@ -257,13 +226,47 @@ public class MainActivity extends AppCompatActivity implements IPFragment.IPDial
         }
     }
 
+    private void vacaChosen(int id) {
+        CallWS cws = new CallWS();
+        Map<String, Integer> parametrosVacas = new HashMap<>();
+        parametrosVacas.put("vaca", id);
+        String resultadoJSON = cws.requestWSsConsultas(Consultas.DATOSVACA, null, null, null, parametrosVacas, getApplicationContext());
+        if (resultadoJSON.contains("error en ws")){
+            Toast toast = Toast.makeText(getApplicationContext(), "La comunicación con el servidor falló: " + resultadoJSON, Toast.LENGTH_LONG);
+            toast.show();
+        } else {
+            try {
+                JSONObject vaca = new JSONObject(resultadoJSON);
+
+                FichaFragment newFragment = new FichaFragment();
+                Bundle args = new Bundle();
+
+                args.putString("vaca", vaca.toString());
+                newFragment.setArguments(args);
+                newFragment.show(getSupportFragmentManager(), "ficha");
+
+            } catch (JSONException e) {
+                Toast toast = Toast.makeText(getApplicationContext(), "JSON Malformado " + e.getMessage(), Toast.LENGTH_LONG);
+                toast.show();
+            }
+        }
+    }
+
+    private void comederoChosen(int idComedero) {
+        DialogFragment newFragment = new VecinosFragment();
+        Bundle args = new Bundle();
+        args.putInt("idComedero", idComedero);
+        newFragment.setArguments(args);
+        newFragment.show(getSupportFragmentManager(), "vecinoscomederos");
+    }
+
     // Create an anonymous implementation of OnClickListener
     private View.OnClickListener btnInicioListener = new View.OnClickListener() {
         public void onClick(View v) {
             Toast toast = Toast.makeText(getApplicationContext(), "Inicio", Toast.LENGTH_LONG);
             toast.show();
             CallWS cws = new CallWS();
-            String resultadoJSON = cws.requestWSs(Consultas.INICIO, null, getApplicationContext());
+            String resultadoJSON = cws.requestWSsConsultas(Consultas.INICIO, null, null, null, null, getApplicationContext());
             if (resultadoJSON.contains("error en ws")){
                 /*IPFragment newFragment = new IPFragment();
                 newFragment.show(getSupportFragmentManager(), "ip");*/
@@ -278,7 +281,7 @@ public class MainActivity extends AppCompatActivity implements IPFragment.IPDial
                         JSONObject vaca = puntos.getJSONObject("Punto" + i);
                         vacas.put(i, new Vaca(vaca.getInt("x"), vaca.getInt("y")));
                     }
-                    Teselado t = findViewById(R.id.teseladoView);
+                    //Teselado t = findViewById(R.id.teseladoView);
                     t.setVacas(vacas);
                     t.drawVacasInicio(true);
                     tiempoActual = -1;
@@ -299,10 +302,10 @@ public class MainActivity extends AppCompatActivity implements IPFragment.IPDial
             if (tiempoActual > -1) {
                 Map<String, Integer> parametrosWS = new HashMap<>();
                 parametrosWS.put("tiempo", tiempoActual);
-                String resultadoJSON = cws.requestWSs(Consultas.ANTERIOR, parametrosWS, getApplicationContext());
+                tiempoActual--;
+                String resultadoJSON = cws.requestWSsConsultas(Consultas.ANTERIOR, null, null, parametrosWS, null, getApplicationContext());
                 if (resultadoJSON.contains("error en ws")){
-                    /*IPFragment newFragment = new IPFragment();
-                    newFragment.show(getSupportFragmentManager(), "ip");*/
+                    tiempoActual++;
                     Toast toast = Toast.makeText(getApplicationContext(), "La comunicación con el servidor falló: " + resultadoJSON, Toast.LENGTH_LONG);
                     toast.show();
                 } else {
@@ -313,7 +316,6 @@ public class MainActivity extends AppCompatActivity implements IPFragment.IPDial
                         ea.setText(fechaActual);
                         JSONObject puntos = reader.getJSONObject("Puntos");
                         modificarVista(puntos);
-                        tiempoActual--;
                     } catch (JSONException e) {
                         Toast toast = Toast.makeText(getApplicationContext(), "JSON Malformado " + e.getMessage(), Toast.LENGTH_LONG);
                         toast.show();
@@ -328,25 +330,34 @@ public class MainActivity extends AppCompatActivity implements IPFragment.IPDial
 
     private View.OnClickListener btnSiguienteListener = new View.OnClickListener() {
         public void onClick(View v) {
-            /*Toast toast = Toast.makeText(getApplicationContext(), "Siguiente", Toast.LENGTH_SHORT);
-            toast.show();*/
             CallWS cws = new CallWS();
             try {
-                //if (tiempoActual < cantTiempos) {
+                if (tiempoActual < cantTiempos) {
                     Map<String, Integer> parametrosWS = new HashMap();
-                    parametrosWS.put("tiempo", tiempoActual + 1);
-
-                    JSONObject reader = new JSONObject(cws.requestWSs(Consultas.SIGUIENTE, parametrosWS, getApplicationContext()));
-                    String fechaActual = reader.getString("Tiempo");
-                    TextView ea = findViewById(R.id.tvEstadoActual);
-                    ea.setText(fechaActual);
-                    JSONObject puntos = reader.getJSONObject("Puntos");
-                    modificarVista(puntos);
                     tiempoActual++;
-                /*} else {
+                    String resultadoJSON;
+                    if (tiempoActual == cantTiempos){
+                        resultadoJSON = cws.requestWSsConsultas(Consultas.FIN, null, null, null, null, getApplicationContext());
+                    } else {
+                        parametrosWS.put("tiempo", tiempoActual);
+                        resultadoJSON = cws.requestWSsConsultas(Consultas.SIGUIENTE, null, null, parametrosWS, null, getApplicationContext());
+                    }
+                    if (resultadoJSON.contains("error en ws")){
+                        tiempoActual--;
+                        Toast toast = Toast.makeText(getApplicationContext(), "La comunicación con el servidor falló: " + resultadoJSON, Toast.LENGTH_LONG);
+                        toast.show();
+                    } else {
+                        JSONObject reader = new JSONObject(resultadoJSON);
+                        String fechaActual = reader.getString("Tiempo");
+                        TextView ea = findViewById(R.id.tvEstadoActual);
+                        ea.setText(fechaActual);
+                        JSONObject puntos = reader.getJSONObject("Puntos");
+                        modificarVista(puntos);
+                    }
+                } else {
                     Toast toast = Toast.makeText(getApplicationContext(), "No existen más registros", Toast.LENGTH_SHORT);
                     toast.show();
-                }*/
+                }
             } catch (JSONException e) {
                 Toast toast = Toast.makeText(getApplicationContext(), "JSON Malformado " + e.getMessage(), Toast.LENGTH_LONG);
                 toast.show();
@@ -361,10 +372,7 @@ public class MainActivity extends AppCompatActivity implements IPFragment.IPDial
             JSONObject vaca = puntos.getJSONObject("Punto" + oId);
             vacas.put(oId, new Vaca(vaca.getInt("x"), vaca.getInt("y")));
         }
-        /*sheetBehavior = BottomSheetBehavior.from(layoutBottomSheet);
-        sheetBehavior.setHideable(false);
-        sheetBehavior.setSkipCollapsed(false);*/
-        Teselado t = (Teselado) findViewById(R.id.teseladoView);
+        //Teselado t = (Teselado) findViewById(R.id.teseladoView);
         t.setVacasModificadas(vacas);
         t.drawVacas(true);
     }
@@ -375,16 +383,15 @@ public class MainActivity extends AppCompatActivity implements IPFragment.IPDial
             toast.show();
             CallWS cws = new CallWS();
             try {
-                //TODO quitar hardcode, obtenerlo por WS
-                tiempoActual = 1272;//cantTiempos;//1272;
-                JSONObject reader = new JSONObject(cws.requestWSs(Consultas.FIN, null, getApplicationContext()));
+                tiempoActual = cantTiempos;//1272;
+                JSONObject reader = new JSONObject(cws.requestWSsConsultas(Consultas.FIN, null, null, null, null, getApplicationContext()));
                 JSONObject puntos = reader.getJSONObject("Puntos");
                 Map<Integer, Vaca> vacas = new HashMap<>();
                 for (int i = 0; i < puntos.length(); i++) {
                     JSONObject vaca = puntos.getJSONObject("Punto" + i);
                     vacas.put(i, new Vaca(vaca.getInt("x"), vaca.getInt("y")));
                 }
-                Teselado t = (Teselado)findViewById(R.id.teseladoView);
+                //Teselado t = (Teselado)findViewById(R.id.teseladoView);
                 t.setVacas(vacas);
                 t.drawVacasInicio(true);
             } catch (JSONException e) {
@@ -396,9 +403,6 @@ public class MainActivity extends AppCompatActivity implements IPFragment.IPDial
 
     private View.OnClickListener btnAxPListener = new View.OnClickListener() {
         public void onClick(View v) {
-            /*Intent intent = new Intent(MainActivity.this, FechaHoraActivity.class);
-            intent.putExtra("tipo", "intervalo");
-            startActivityForResult(intent, CONSULTA_INTERVALO);*/
             DialogFragment newFragment = new IPFragment();
             Bundle args = new Bundle();
             args.putInt("tipo", CONSULTA_INTERVALO);
@@ -429,7 +433,7 @@ public class MainActivity extends AppCompatActivity implements IPFragment.IPDial
 
     private View.OnClickListener btnClearListener = new View.OnClickListener() {
         public void onClick(View v) {
-            Teselado t = findViewById(R.id.teseladoView);
+            //Teselado t = findViewById(R.id.teseladoView);
             t.setAction(Consultas.CLEAR);
             ImageButton btnFinalizarConsulta = findViewById(R.id.ibFinalizarConsulta);
             btnFinalizarConsulta.setClickable(false);
@@ -440,7 +444,7 @@ public class MainActivity extends AppCompatActivity implements IPFragment.IPDial
     private View.OnClickListener btnActualizarListener = new View.OnClickListener() {
         public void onClick(View v) {
             llamarWS();
-            Teselado t = findViewById(R.id.teseladoView);
+            //Teselado t = findViewById(R.id.teseladoView);
             t.setAction(Consultas.CLEAR);
         }
     };
@@ -461,14 +465,14 @@ public class MainActivity extends AppCompatActivity implements IPFragment.IPDial
                 toast.show();
                 CallWS cws = new CallWS();
                 try {
-                    JSONObject reader = new JSONObject(cws.requestWSs(Consultas.COMEDEROS, null, getApplicationContext()));
+                    JSONObject reader = new JSONObject(cws.requestWSsConsultas(Consultas.COMEDEROS, null, null, null, null, getApplicationContext()));
                     JSONObject comederos = reader.getJSONObject("Comederos");
                     Map<Integer, Vaca> comederosId = new HashMap<>();
                     for (int i = 0; i < comederos.length(); i++) {
                         JSONObject comedero = comederos.getJSONObject("Comedero" + i);
                         comederosId.put(i, new Vaca(comedero.getInt("X"), comedero.getInt("Y")));
                     }
-                    Teselado t = (Teselado) findViewById(R.id.teseladoView);
+                    //Teselado t = (Teselado) findViewById(R.id.teseladoView);
                     t.setComederos(comederosId);
                     t.drawComederos(true);
                 } catch (JSONException e) {
@@ -481,7 +485,7 @@ public class MainActivity extends AppCompatActivity implements IPFragment.IPDial
                 ((ToggleButton)buttonView).setCompoundDrawables(null,img,null,null);
                 Toast toast = Toast.makeText(getApplicationContext(), "Ocultar comederos", Toast.LENGTH_LONG);
                 toast.show();
-                Teselado t = (Teselado) findViewById(R.id.teseladoView);
+                //Teselado t = (Teselado) findViewById(R.id.teseladoView);
                 t.drawComederos(false);
             }
         }
@@ -543,8 +547,7 @@ public class MainActivity extends AppCompatActivity implements IPFragment.IPDial
 
             scrollBottom();
 
-            //sheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-            Teselado t = findViewById(R.id.teseladoView);
+            //Teselado t = findViewById(R.id.teseladoView);
             t.setAction(Consultas.INTERVALO);
             t.setOnStopTrackEventListener(new Eventos() {
                 @Override
@@ -573,7 +576,7 @@ public class MainActivity extends AppCompatActivity implements IPFragment.IPDial
                         for (int i = 0; i < puntos.length(); i++) {
                             vacasID.add( puntos.getInt("ID" + i));
                         }
-                        Teselado t = findViewById(R.id.teseladoView);
+                        //Teselado t = findViewById(R.id.teseladoView);
                         t.setVacasSeleccionadas(vacasID);
                         t.drawVacas(true);
                     } catch (JSONException e) {
@@ -584,12 +587,12 @@ public class MainActivity extends AppCompatActivity implements IPFragment.IPDial
 
                 @Override
                 public void onVacaChosen(int id) {
-
+                    vacaChosen(id);
                 }
 
                 @Override
                 public void onComederoChosen(int id) {
-
+                    comederoChosen(id);
                 }
             });
         } else if(((IPFragment)dialog).getConsulta() == CONSULTA_EVENTO){
@@ -600,7 +603,7 @@ public class MainActivity extends AppCompatActivity implements IPFragment.IPDial
 
             scrollBottom();
 
-            Teselado t = findViewById(R.id.teseladoView);
+            //Teselado t = findViewById(R.id.teseladoView);
             t.setAction(Consultas.EVENTO);
             t.setOnStopTrackEventListener(new Eventos() {
                 @Override
@@ -633,7 +636,7 @@ public class MainActivity extends AppCompatActivity implements IPFragment.IPDial
                         for (int i = 0; i < puntosOut.length(); i++) {
                             vacasIDOut.add( puntosOut.getInt("ID" + i));
                         }
-                        Teselado t = findViewById(R.id.teseladoView);
+                        //Teselado t = findViewById(R.id.teseladoView);
                         t.setVacasInOut(vacasIDIn, vacasIDOut);
                         t.drawVacas(true);
                     } catch (JSONException e) {
@@ -644,12 +647,12 @@ public class MainActivity extends AppCompatActivity implements IPFragment.IPDial
 
                 @Override
                 public void onVacaChosen(int id) {
-
+                    vacaChosen(id);
                 }
 
                 @Override
                 public void onComederoChosen(int id) {
-
+                    comederoChosen(id);
                 }
             });
 
@@ -685,7 +688,7 @@ public class MainActivity extends AppCompatActivity implements IPFragment.IPDial
                         trayectorias.add(new Punto(trayectoria.getInt("x"), trayectoria.getInt("y")));
                     }
                 }
-                Teselado t = findViewById(R.id.teseladoView);
+                //Teselado t = findViewById(R.id.teseladoView);
                 t.setAction(Consultas.TRAYECTORIA);
                 t.setTrayectoria(vacaID, trayectorias);
                 t.drawVacas(true);
@@ -719,7 +722,7 @@ public class MainActivity extends AppCompatActivity implements IPFragment.IPDial
     public void onDialogPositiveClickVecinos(DialogFragment dialog) {
         int cantidad = ((VecinosFragment)dialog).getCantidad();
         int distancia = ((VecinosFragment)dialog).getDistancia();
-        if(cantidad > 0) {
+        if(cantidad >= 0) {
             final long fi = ((VecinosFragment)dialog).getFechaIni();
             final int hi = ((VecinosFragment)dialog).getHoraIni();
             scrollBottom();
@@ -738,7 +741,7 @@ public class MainActivity extends AppCompatActivity implements IPFragment.IPDial
                 JSONObject reader = new JSONObject(cws.requestWSsConsultas(Consultas.VECINOS, parametrosArea, parametroFechas, parametrosHoras, parametrosVecinos, getApplicationContext()));
                 JSONObject comederos = reader.getJSONObject("Comederos");
 
-                Teselado t = findViewById(R.id.teseladoView);
+                //Teselado t = findViewById(R.id.teseladoView);
                 //ArrayList<Punto> trayectorias = new ArrayList<>();
                 for (int i = 0; i < comederos.length(); i++) {
                     if (i != t.getComederoSeleccionado()){
@@ -750,15 +753,13 @@ public class MainActivity extends AppCompatActivity implements IPFragment.IPDial
                         JSONObject vecino = comedero.getJSONObject("Vecino" + j);
                         vacasID.add(vecino.getInt("ID"));
                     }
-                    t.setVacasSeleccionadas(vacasID);
+                    t.setVacasVecinas(vacasID);
                     //JSONObject vecinos = comederos.getJSONObject("Vecino");
                 }
 
                 //TODO revisar set action
-                t.setAction(Consultas.INTERVALO);
-                //t.setTrayectoria(vacaID, trayectorias);
+                t.setAction(Consultas.VECINOS);
                 t.drawVacas(true);
-                //sheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
             } catch (JSONException e) {
                 Toast toast = Toast.makeText(getApplicationContext(), "JSON Malformado " + e.getMessage(), Toast.LENGTH_LONG);
                 toast.show();

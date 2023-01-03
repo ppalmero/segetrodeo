@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -200,7 +201,7 @@ public class VecinosFragment extends DialogFragment implements DatePickerFragmen
     public Integer getCantidad(){
         TextView tvV = v.findViewById(R.id.tvCantidadVecinos);
         if (tvV.getText().toString().equals("")){
-            return -1;
+            return 0;
         } else {
             return Integer.parseInt((String) tvV.getText().toString());
         }
@@ -209,7 +210,7 @@ public class VecinosFragment extends DialogFragment implements DatePickerFragmen
     public Integer getDistancia(){
         TextView tvV = v.findViewById(R.id.tvDistanciaVecinos);
         if (tvV.getText().toString().equals("")){
-            return -1;
+            return 0;
         } else {
             return Integer.parseInt((String) tvV.getText().toString());
         }

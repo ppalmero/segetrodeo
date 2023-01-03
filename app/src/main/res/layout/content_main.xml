@@ -21,164 +21,37 @@
         android:textSize="14sp"
         android:textStyle="bold" />
 
-    <androidx.cardview.widget.CardView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        CircleProgressView:cardCornerRadius="3dp"
-        CircleProgressView:cardElevation="10dp"
-        CircleProgressView:cardUseCompatPadding="true"
-        >
+        android:orientation="horizontal">
 
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_weight="1"
+            android:fontFamily="casual"
+            android:text="Estado actual"
+            android:textSize="12dp"
+            android:textStyle="bold" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+        <TextView
+            android:id="@+id/tvEstadoActual"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:layout_weight="1"
+            android:fontFamily="casual"
+            android:gravity="right"
+            android:text="01/02/2021 - 08h"
+            android:textSize="12dp"
+            android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/tvEstadisticas"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:text="Estadísticas"
-                android:textStyle="bold" />
+    </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="160dp"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/textView9"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="Condición corporal baja" />
-
-                    <at.grabner.circleprogress.CircleProgressView
-                        android:id="@+id/circleView"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_margin="10dp"
-                        android:layout_weight="1"
-                        CircleProgressView:cpv_autoTextSize="true"
-                        CircleProgressView:cpv_barColor="@color/colorSecondaryDark"
-                        CircleProgressView:cpv_barWidth="15dp"
-                        CircleProgressView:cpv_innerContourSize="0dp"
-                        CircleProgressView:cpv_maxValue="100"
-                        CircleProgressView:cpv_outerContourSize="0dp"
-                        CircleProgressView:cpv_rimColor="@color/colorSecondary"
-                        CircleProgressView:cpv_rimWidth="15dp"
-                        CircleProgressView:cpv_seekMode="true"
-                        CircleProgressView:cpv_showUnit="true"
-                        CircleProgressView:cpv_spinColor="@color/colorSecondary"
-                        CircleProgressView:cpv_textColor="@color/colorSecondaryDark"
-                        CircleProgressView:cpv_textScale="1"
-                        CircleProgressView:cpv_unit="%"
-                        CircleProgressView:cpv_unitColor="@color/colorSecondary"
-                        CircleProgressView:cpv_unitPosition="right_top"
-                        CircleProgressView:cpv_unitScale="1"
-                        CircleProgressView:cpv_value="36" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/textView10"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="Animales en movimiento" />
-
-                    <at.grabner.circleprogress.CircleProgressView
-                        android:id="@+id/circleView2"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:layout_weight="1"
-                        CircleProgressView:cpv_autoTextSize="true"
-                        CircleProgressView:cpv_barColor="@color/colorAccentDark"
-                        CircleProgressView:cpv_barWidth="15dp"
-                        CircleProgressView:cpv_innerContourSize="0dp"
-                        CircleProgressView:cpv_maxValue="100"
-                        CircleProgressView:cpv_outerContourSize="0dp"
-                        CircleProgressView:cpv_rimColor="@color/colorAccent"
-                        CircleProgressView:cpv_rimWidth="15dp"
-                        CircleProgressView:cpv_seekMode="true"
-                        CircleProgressView:cpv_showUnit="true"
-                        CircleProgressView:cpv_spinColor="@color/colorAccent"
-                        CircleProgressView:cpv_textColor="@color/colorAccentDark"
-                        CircleProgressView:cpv_textScale="1"
-                        CircleProgressView:cpv_unit="%"
-                        CircleProgressView:cpv_unitColor="@color/colorAccent"
-                        CircleProgressView:cpv_unitPosition="right_top"
-                        CircleProgressView:cpv_unitScale="1"
-                        CircleProgressView:cpv_value="80" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/textView11"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="Animales \n alejados" />
-
-                    <at.grabner.circleprogress.CircleProgressView
-                        android:id="@+id/circleView3"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:layout_weight="1"
-                        CircleProgressView:cpv_autoTextSize="true"
-                        CircleProgressView:cpv_barColor="@color/colorPrimaryDark"
-                        CircleProgressView:cpv_barWidth="15dp"
-                        CircleProgressView:cpv_innerContourSize="0dp"
-                        CircleProgressView:cpv_maxValue="100"
-                        CircleProgressView:cpv_outerContourSize="0dp"
-                        CircleProgressView:cpv_rimColor="@color/colorPrimary"
-                        CircleProgressView:cpv_rimWidth="15dp"
-                        CircleProgressView:cpv_seekMode="true"
-                        CircleProgressView:cpv_showUnit="true"
-                        CircleProgressView:cpv_spinColor="@color/colorPrimary"
-                        CircleProgressView:cpv_textColor="@color/colorPrimaryDark"
-                        CircleProgressView:cpv_textScale="1"
-                        CircleProgressView:cpv_unit="%"
-                        CircleProgressView:cpv_unitColor="@color/colorPrimary"
-                        CircleProgressView:cpv_unitPosition="right_top"
-                        CircleProgressView:cpv_unitScale="1"
-                        CircleProgressView:cpv_value="15" />
-                </LinearLayout>
-
-            </LinearLayout>
-        </LinearLayout>
-
-    </androidx.cardview.widget.CardView>
-
-        <LinearLayout
+    <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal">
@@ -328,33 +201,159 @@
             android:src="@drawable/cancelar" />
     </LinearLayout>
 
-    <LinearLayout
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="1px"
+        android:layout_weight="1"
+        CircleProgressView:cardCornerRadius="3dp"
+        CircleProgressView:cardElevation="10dp"
+        CircleProgressView:cardUseCompatPadding="true">
 
-        <TextView
-            android:id="@+id/textView6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_weight="1"
-            android:fontFamily="casual"
-            android:text="Estado actual"
-            android:textSize="12dp"
-            android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/tvEstadoActual"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="20dp"
-            android:layout_weight="1"
-            android:fontFamily="casual"
-            android:gravity="right"
-            android:text="01/02/2021 - 06h"
-            android:textSize="12dp"
-            android:textStyle="bold" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/tvEstadisticas"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:text="Estadísticas"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="160dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/textView9"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="Condición corporal baja" />
+
+                    <at.grabner.circleprogress.CircleProgressView
+                        android:id="@+id/circleView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="10dp"
+                        android:layout_weight="1"
+                        CircleProgressView:cpv_autoTextSize="true"
+                        CircleProgressView:cpv_barColor="@color/colorSecondaryDark"
+                        CircleProgressView:cpv_barWidth="15dp"
+                        CircleProgressView:cpv_innerContourSize="0dp"
+                        CircleProgressView:cpv_maxValue="100"
+                        CircleProgressView:cpv_outerContourSize="0dp"
+                        CircleProgressView:cpv_rimColor="@color/colorSecondary"
+                        CircleProgressView:cpv_rimWidth="15dp"
+                        CircleProgressView:cpv_seekMode="true"
+                        CircleProgressView:cpv_showUnit="true"
+                        CircleProgressView:cpv_spinColor="@color/colorSecondary"
+                        CircleProgressView:cpv_textColor="@color/colorSecondaryDark"
+                        CircleProgressView:cpv_textScale="1"
+                        CircleProgressView:cpv_unit="%"
+                        CircleProgressView:cpv_unitColor="@color/colorSecondary"
+                        CircleProgressView:cpv_unitPosition="right_top"
+                        CircleProgressView:cpv_unitScale="1"
+                        CircleProgressView:cpv_value="36" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/textView10"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="Animales en movimiento" />
+
+                    <at.grabner.circleprogress.CircleProgressView
+                        android:id="@+id/circleView2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:layout_weight="1"
+                        CircleProgressView:cpv_autoTextSize="true"
+                        CircleProgressView:cpv_barColor="@color/colorAccentDark"
+                        CircleProgressView:cpv_barWidth="15dp"
+                        CircleProgressView:cpv_innerContourSize="0dp"
+                        CircleProgressView:cpv_maxValue="100"
+                        CircleProgressView:cpv_outerContourSize="0dp"
+                        CircleProgressView:cpv_rimColor="@color/colorAccent"
+                        CircleProgressView:cpv_rimWidth="15dp"
+                        CircleProgressView:cpv_seekMode="true"
+                        CircleProgressView:cpv_showUnit="true"
+                        CircleProgressView:cpv_spinColor="@color/colorAccent"
+                        CircleProgressView:cpv_textColor="@color/colorAccentDark"
+                        CircleProgressView:cpv_textScale="1"
+                        CircleProgressView:cpv_unit="%"
+                        CircleProgressView:cpv_unitColor="@color/colorAccent"
+                        CircleProgressView:cpv_unitPosition="right_top"
+                        CircleProgressView:cpv_unitScale="1"
+                        CircleProgressView:cpv_value="80" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/textView11"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="Animales \n alejados" />
+
+                    <at.grabner.circleprogress.CircleProgressView
+                        android:id="@+id/circleView3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:layout_weight="1"
+                        CircleProgressView:cpv_autoTextSize="true"
+                        CircleProgressView:cpv_barColor="@color/colorPrimaryDark"
+                        CircleProgressView:cpv_barWidth="15dp"
+                        CircleProgressView:cpv_innerContourSize="0dp"
+                        CircleProgressView:cpv_maxValue="100"
+                        CircleProgressView:cpv_outerContourSize="0dp"
+                        CircleProgressView:cpv_rimColor="@color/colorPrimary"
+                        CircleProgressView:cpv_rimWidth="15dp"
+                        CircleProgressView:cpv_seekMode="true"
+                        CircleProgressView:cpv_showUnit="true"
+                        CircleProgressView:cpv_spinColor="@color/colorPrimary"
+                        CircleProgressView:cpv_textColor="@color/colorPrimaryDark"
+                        CircleProgressView:cpv_textScale="1"
+                        CircleProgressView:cpv_unit="%"
+                        CircleProgressView:cpv_unitColor="@color/colorPrimary"
+                        CircleProgressView:cpv_unitPosition="right_top"
+                        CircleProgressView:cpv_unitScale="1"
+                        CircleProgressView:cpv_value="15" />
+                </LinearLayout>
+
+            </LinearLayout>
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
 </LinearLayout>

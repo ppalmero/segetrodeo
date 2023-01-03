@@ -140,10 +140,8 @@ public class IPFragment extends DialogFragment implements DatePickerFragment.OnD
 
         HashMap<Integer, Vaca> vacas = null;
 
-        String resultadoJSON = cws.requestWS(Consultas.LISTADO, getContext());
+        String resultadoJSON = cws.requestWSsConsultas(Consultas.LISTADO, null, null, null, null, getContext());
         if (resultadoJSON.contains("error en ws")){
-            /*IPFragment newFragment = new IPFragment();
-            newFragment.show(getSupportFragmentManager(), "ip");*/
             Toast toast = Toast.makeText(getContext(), "La comunicación con el servidor falló: " + resultadoJSON, Toast.LENGTH_LONG);
             toast.show();
         } else {

@@ -26,117 +26,10 @@ public class CallWS {
      *
      * SOAP_ACTION: NAMESPACE + METHOD_NAME.*/
 
-    //private static String SOAP_ACTION1 = "http://ws.prp.com/datosIniciales";
     private static String NAMESPACE = "http://ws.prp.com/";
     private static String METHOD_NAME1 = "posicionInicial";
-    private static String URL = "http://190.122.229.51:8080/MyWS/TestWS?wsdl";
-    //private static String URL = "http://192.168.1.73:8084/MyWS/TestWS?wsdl";
-
-    public String requestWS(Consultas parametro, Context context){
-        SoapObject request;
-        String wsNombre = "";
-
-        switch (parametro) {
-            case INICIO:
-                wsNombre = Wss.posicionInicial.name();
-                request = new SoapObject(NAMESPACE, wsNombre);
-                break;
-            case LISTADO:
-                wsNombre = Wss.listarVaca.name();
-                request = new SoapObject(NAMESPACE, wsNombre);
-                break;
-        }
-
-        request = new SoapObject(NAMESPACE, wsNombre);
-        //Use this to add parameters
-        PropertyInfo propertyInfo = new PropertyInfo();
-        propertyInfo.setName("arg0");
-        propertyInfo.setValue(parametro);
-        propertyInfo.setType(String.class);
-        //request.addProperty(propertyInfo);
-        //Declare the version of the SOAP request
-        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
-        envelope.setOutputSoapObject(request);
-        //envelope.dotNet = true;
-        try {
-            HttpTransportSE httpTransportSE = new HttpTransportSE(URL);
-            httpTransportSE.call(NAMESPACE + wsNombre, envelope);
-            SoapPrimitive soapPrimitive = (SoapPrimitive)envelope.getResponse();
-            String result = soapPrimitive.toString();
-            if(result != null) {
-                //Get the first property and change the label text
-                return result;//.getProperty(0).toString();
-            } else {
-                Toast.makeText(context, "No Response",Toast.LENGTH_LONG).show();
-                return "error en ws" + "retorna nada";
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "error en ws" + e.getMessage();
-        }
-    }
-
-    public String requestWSs(Consultas parametro, Map<String, Integer> parametrosWS, Context context){
-        SoapObject request = null;
-        String wsNombre = "";
-        SoapSerializationEnvelope envelope;
-        HttpTransportSE httpTransportSE;
-        SoapPrimitive soapPrimitive;
-        PropertyInfo propertyInfo;
-        String result;
-        switch (parametro){
-            case INICIO:
-                wsNombre =  Wss.posicionInicial.name();
-                request = new SoapObject(NAMESPACE, wsNombre);
-                break;
-            case ANTERIOR:
-                wsNombre = Wss.consultarMovimientoAnterior.name();
-                request = new SoapObject(NAMESPACE, wsNombre);
-
-                propertyInfo = new PropertyInfo();
-                propertyInfo.setName("arg0");
-                propertyInfo.setValue(parametrosWS.get("tiempo"));
-                propertyInfo.setType(Integer.class);
-                request.addProperty(propertyInfo);
-                break;
-            case SIGUIENTE:
-                wsNombre = Wss.consultarMovimientoSiguiente.name();
-                request = new SoapObject(NAMESPACE, wsNombre);
-
-                propertyInfo = new PropertyInfo();
-                propertyInfo.setName("arg0");
-                propertyInfo.setValue(parametrosWS.get("tiempo"));
-                propertyInfo.setType(Integer.class);
-                request.addProperty(propertyInfo);
-                break;
-            case FIN:
-                wsNombre =  Wss.posicionFinal.name();
-                request = new SoapObject(NAMESPACE, wsNombre);
-                break;
-            case COMEDEROS:
-                wsNombre =  Wss.getMuchosComederos.name();
-                request = new SoapObject(NAMESPACE, wsNombre);
-                break;
-        }
-
-        envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
-        envelope.setOutputSoapObject(request);
-        try {
-            httpTransportSE = new HttpTransportSE(URL);
-            httpTransportSE.call(NAMESPACE + wsNombre, envelope);
-            soapPrimitive = (SoapPrimitive)envelope.getResponse();
-            result = soapPrimitive.toString();
-            if(result != null) {
-                return result;
-            } else {
-                Toast.makeText(context, "Not  Response",Toast.LENGTH_LONG).show();
-                return "error en ws retorna nada";
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "error en ws " + e.getMessage();
-        }
-    }
+    private static String URL = "http://190.122.229.51:8084/MyWS/TestWS?wsdl";
+    //private static String URL = "http://192.168.1.150:8084/MyWS/TestWS?wsdl";
 
     public String requestWSsConsultas(Consultas parametro, Map<String, Float> parametrosWSArea, Map<String, Long> parametrosWSFechas, Map<String, Integer> parametrosWSHoras, Map<String, Integer> parametrosWSVacas, Context context){
         SoapObject request = null;
@@ -149,10 +42,61 @@ public class CallWS {
         envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
         //envelope.dotNet = true;
         switch (parametro){
-            case INTERVALO:
-                wsNombre = Wss.consultarIntervalo.name();
+            case COMEDEROS:
+                wsNombre = Wss.getMuchosComederos.name();
+                request = new SoapObject(NAMESPACE, wsNombre);
+                break;
+            case LISTADO:
+                wsNombre = Wss.listarVaca.name();
+                request = new SoapObject(NAMESPACE, wsNombre);
+                break;
+            case INICIO:
+                wsNombre =  Wss.posicionInicial.name();
+                request = new SoapObject(NAMESPACE, wsNombre);
+                break;
+            case ANTERIOR:
+                wsNombre = Wss.consultarMovimientoAnterior.name();
                 request = new SoapObject(NAMESPACE, wsNombre);
 
+                propertyInfo = new PropertyInfo();
+                propertyInfo.setName("arg0");
+                propertyInfo.setValue(parametrosWSHoras.get("tiempo"));
+                propertyInfo.setType(Integer.class);
+                request.addProperty(propertyInfo);
+                break;
+            case SIGUIENTE:
+                wsNombre = Wss.consultarMovimientoSiguiente.name();
+                request = new SoapObject(NAMESPACE, wsNombre);
+
+                propertyInfo = new PropertyInfo();
+                propertyInfo.setName("arg0");
+                propertyInfo.setValue(parametrosWSHoras.get("tiempo"));
+                propertyInfo.setType(Integer.class);
+                request.addProperty(propertyInfo);
+                break;
+            case FIN:
+                wsNombre = Wss.posicionFinal.name();
+                request = new SoapObject(NAMESPACE, wsNombre);
+                break;
+            case INTERVALO:
+            case EVENTO:
+                if (parametro.equals(Consultas.INTERVALO)){
+                    wsNombre = Wss.consultarIntervalo.name();
+                    request = new SoapObject(NAMESPACE, wsNombre);
+                    PropertyInfo propertyInfo6 = new PropertyInfo();
+                    propertyInfo6.setName("arg6");
+                    propertyInfo6.setValue(parametrosWSFechas.get("tf"));//1512183600000
+                    propertyInfo6.setType(Long.class);
+                    request.addProperty(propertyInfo6);
+                    PropertyInfo propertyInfo7 = new PropertyInfo();
+                    propertyInfo7.setName("arg7");
+                    propertyInfo7.setValue(parametrosWSHoras.get("hf"));
+                    propertyInfo7.setType(Integer.class);
+                    request.addProperty(propertyInfo7);
+                } else {
+                    wsNombre = Wss.consultarEvento.name();
+                    request = new SoapObject(NAMESPACE, wsNombre);
+                }
                 propertyInfo = new PropertyInfo();
                 propertyInfo.setName("arg0");
                 propertyInfo.setValue(parametrosWSArea.get("xmin"));//0.253
@@ -185,55 +129,6 @@ public class CallWS {
                 PropertyInfo propertyInfo5 = new PropertyInfo();
                 propertyInfo5.setName("arg5");
                 propertyInfo5.setValue(parametrosWSHoras.get("hi"));
-                propertyInfo5.setType(Integer.class);
-                request.addProperty(propertyInfo5);
-                PropertyInfo propertyInfo6 = new PropertyInfo();
-                propertyInfo6.setName("arg6");
-                propertyInfo6.setValue(parametrosWSFechas.get("tf"));//1512183600000
-                propertyInfo6.setType(Long.class);
-                request.addProperty(propertyInfo6);
-                PropertyInfo propertyInfo7 = new PropertyInfo();
-                propertyInfo7.setName("arg7");
-                propertyInfo7.setValue(parametrosWSHoras.get("hf"));
-                propertyInfo7.setType(Integer.class);
-                request.addProperty(propertyInfo7);
-                break;
-            case EVENTO:
-                wsNombre = Wss.consultarEvento.name();
-                request = new SoapObject(NAMESPACE, wsNombre);
-
-                propertyInfo = new PropertyInfo();
-                propertyInfo.setName("arg0");
-                propertyInfo.setValue(parametrosWSArea.get("xmin"));//0.508
-                propertyInfo.setType(Float.class);
-                request.addProperty(propertyInfo);
-                propertyInfo1 = new PropertyInfo();
-                propertyInfo1.setName("arg1");
-                propertyInfo1.setValue(parametrosWSArea.get("ymin"));//0.282
-                propertyInfo1.setType(Float.class);
-                request.addProperty(propertyInfo1);
-                propertyInfo2 = new PropertyInfo();
-                propertyInfo2.setName("arg2");
-                propertyInfo2.setValue(parametrosWSArea.get("xmax"));//0.653
-                propertyInfo2.setType(Float.class);
-                request.addProperty(propertyInfo2);
-                propertyInfo3 = new PropertyInfo();
-                propertyInfo3.setName("arg3");
-                propertyInfo3.setValue(parametrosWSArea.get("ymax"));//0.511
-                propertyInfo3.setType(Float.class);
-                request.addProperty(propertyInfo3);
-
-                md = new MarshalFloat();
-                md.register(envelope);
-
-                propertyInfo4 = new PropertyInfo();
-                propertyInfo4.setName("arg4");
-                propertyInfo4.setValue(parametrosWSFechas.get("ti"));//1509505200000
-                propertyInfo4.setType(Long.class);
-                request.addProperty(propertyInfo4);
-                propertyInfo5 = new PropertyInfo();
-                propertyInfo5.setName("arg5");
-                propertyInfo5.setValue(parametrosWSHoras.get("hi"));//3
                 propertyInfo5.setType(Integer.class);
                 request.addProperty(propertyInfo5);
                 break;
@@ -305,6 +200,7 @@ public class CallWS {
                 propertyInfo3.setValue(parametrosWSHoras.get("hi"));//0.511
                 propertyInfo3.setType(Integer.class);
                 request.addProperty(propertyInfo3);
+
         }
 
         envelope.setOutputSoapObject(request);
@@ -324,4 +220,5 @@ public class CallWS {
             return "error en ws error" + e.getMessage();
         }
     }
+
 }
