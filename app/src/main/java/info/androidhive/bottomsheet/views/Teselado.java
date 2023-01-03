@@ -10,7 +10,6 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.Region;
 import android.graphics.drawable.Drawable;
-import android.os.Bundle;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
@@ -18,7 +17,6 @@ import android.view.View;
 import android.widget.ScrollView;
 
 import androidx.core.view.MotionEventCompat;
-import androidx.fragment.app.DialogFragment;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -50,7 +48,8 @@ public class Teselado extends View {
     private ArrayList<Integer> vacasIn = new ArrayList<>();
     private ArrayList<Integer> vacasOut = new ArrayList<>();
     private float ancho, alto;
-    private int vacaSelected;
+    private int vacaTrayectoria;
+    private int vacaShow;
     private ArrayList<Punto> trayectoria;
     private boolean drawTrayectoria = false;
     private boolean drawEvento = false;
@@ -132,7 +131,7 @@ public class Teselado extends View {
                 for (int i = 0; i < vacas.size(); i++) {
                     Region r = new Region(getRegion(new Point(vacas.get(i).getX(), vacas.get(i).getY()), 50));
                     if (r.contains(raton.x, raton.y)) {
-                        vacaSelected = i;
+                        vacaShow = i;
                         vacaChosen(i);
                         // TODO Lanzar evento para obtener la info de la vaca elegida.
                     }
@@ -146,6 +145,13 @@ public class Teselado extends View {
             int vacaWidth = d.getIntrinsicWidth();
             int vacaHeight = d.getIntrinsicHeight();
             System.out.println("Cantidad de vacas modificadas: " + vacasModificadas.size());
+
+            if (vacaShow != -1 /*&& accion.equals("select")*/ && !dibujarComederos){
+                paint.setColor(Color.MAGENTA);
+                canvas.drawCircle((vacas.get(vacaShow).getX()) * ancho, (vacas.get(vacaShow).getY()) * alto, vacaWidth / 2, paint);
+                paint.setColor(Color.BLUE);
+            }
+
             for (Integer i : vacas.keySet()) {
                 Vaca vacaCanvas;
                 if (vacasModificadas.containsKey(i)) {
@@ -175,7 +181,7 @@ public class Teselado extends View {
                         canvas.drawCircle((vacaCanvas.getX()) * ancho, (vacaCanvas.getY()) * alto, vacaWidth / 2, paint);
                         paint.setColor(Color.BLUE);
                     }
-                } else if (drawTrayectoria && i == (vacaSelected)) {
+                } else if (drawTrayectoria && i == (vacaTrayectoria)) {
                     paint.setColor(Color.rgb(255, 127, 0));
                     canvas.drawCircle((vacaCanvas.getX()) * ancho, (vacaCanvas.getY()) * alto, vacaWidth / 2, paint);
                     int tSize = trayectoria.size() - 1;
@@ -389,7 +395,7 @@ public class Teselado extends View {
     }
 
     public void setTrayectoria(int vacaID, ArrayList<Punto> trayectoria) {
-        this.vacaSelected = vacaID;
+        this.vacaTrayectoria = vacaID;
         this.trayectoria = trayectoria;
     }
 
@@ -400,24 +406,28 @@ public class Teselado extends View {
                 this.drawEvento = false;
                 this.drawTrayectoria = false;
                 this.drawVecinos = true;
+                this.vacaShow = -1;
                 break;
             case INTERVALO:
                 this.drawIntervalo = true;
                 this.drawEvento = false;
                 this.drawTrayectoria = false;
                 this.drawVecinos = false;
+                this.vacaShow = -1;
                 break;
             case EVENTO:
                 this.drawIntervalo = false;
                 this.drawEvento = true;
                 this.drawTrayectoria = false;
                 this.drawVecinos = false;
+                this.vacaShow = -1;
                 break;
             case TRAYECTORIA:
                 this.drawIntervalo = false;
                 this.drawEvento = false;
                 this.drawTrayectoria = true;
                 this.drawVecinos = false;
+                this.vacaShow = -1;
                 break;
             case CLEAR:
                 this.drawIntervalo = false;
@@ -427,7 +437,8 @@ public class Teselado extends View {
                 this.vacasSeleccionadas.clear();
                 this.vacasIn.clear();
                 this.vacasOut.clear();
-                this.vacaSelected = -1;
+                this.vacaTrayectoria = -1;
+                this.vacaShow = -1;
                 this.vacasVecinas.clear();
                 this.drawVecinos = false;
                 this.invalidate();
@@ -441,6 +452,11 @@ public class Teselado extends View {
     public void drawComederos(boolean dibujar) {
         this.dibujarComederos = dibujar;
         this.drawVecinos = dibujar;
+        this.invalidate();
+    }
+
+    public void setVacaShow(int vacaID) {
+        vacaShow = vacaID;
         this.invalidate();
     }
 

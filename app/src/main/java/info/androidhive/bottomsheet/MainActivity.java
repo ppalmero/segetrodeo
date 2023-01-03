@@ -42,13 +42,14 @@ import butterknife.OnClick;*/
 import info.androidhive.bottomsheet.enums.Consultas;
 import info.androidhive.bottomsheet.listeners.Eventos;
 //import info.androidhive.bottomsheet.views.FechaHoraActivity;
+import info.androidhive.bottomsheet.views.BuscarFragment;
 import info.androidhive.bottomsheet.views.FichaFragment;
 import info.androidhive.bottomsheet.views.IPFragment;
 import info.androidhive.bottomsheet.views.Teselado;
 import info.androidhive.bottomsheet.views.VecinosFragment;
 import info.androidhive.bottomsheet.ws.CallWS;
 
-public class MainActivity extends AppCompatActivity implements IPFragment.IPDialogListener, VecinosFragment.VecinosDialogListener {
+public class MainActivity extends AppCompatActivity implements IPFragment.IPDialogListener, VecinosFragment.VecinosDialogListener, BuscarFragment.BuscarDialogListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
     public static final int CONSULTA_INTERVALO = 1111;
@@ -56,13 +57,8 @@ public class MainActivity extends AppCompatActivity implements IPFragment.IPDial
     public static final int CONSULTA_TRAYECTORIA = 3333;
     private static final int MY_PERMISSIONS_REQUEST_INTERNET_ACCESS = 1;
 
-    //@BindView(R.id.expandir)
-    //Button btnExpandir;
-
     //@BindView(R.id.bottom_sheet)
     LinearLayout layoutBottomSheet;
-
-    //BottomSheetBehavior sheetBehavior;
 
     /*** circle view ***/
 
@@ -451,7 +447,8 @@ public class MainActivity extends AppCompatActivity implements IPFragment.IPDial
 
     private View.OnClickListener btnBuscarListener = new View.OnClickListener() {
         public void onClick(View v) {
-            
+            DialogFragment newFragment = new BuscarFragment();
+            newFragment.show(getSupportFragmentManager(), "buscar");
         }
     };
 
@@ -552,9 +549,7 @@ public class MainActivity extends AppCompatActivity implements IPFragment.IPDial
             t.setOnStopTrackEventListener(new Eventos() {
                 @Override
                 public void onStopTrack(Float xDown, Float yDown, Float x, Float y) {
-                    //scrollLock(false);
-                    Toast toast = Toast.makeText(getApplicationContext(), "Parcela: " + xDown + yDown + x + y, Toast.LENGTH_LONG);
-                    toast.show();
+                    System.out.println("Parcela: " + xDown + yDown + x + y);
                     CallWS cws = new CallWS();
                     Map<String, Float> parametrosArea = new HashMap<>();
                     parametrosArea.put("xmin", xDown.intValue() / 1000f);
@@ -580,7 +575,7 @@ public class MainActivity extends AppCompatActivity implements IPFragment.IPDial
                         t.setVacasSeleccionadas(vacasID);
                         t.drawVacas(true);
                     } catch (JSONException e) {
-                        toast = Toast.makeText(getApplicationContext(), "JSON Malformado " + e.getMessage(), Toast.LENGTH_LONG);
+                        Toast toast = Toast.makeText(getApplicationContext(), "JSON Malformado " + e.getMessage(), Toast.LENGTH_LONG);
                         toast.show();
                     }
                 }
@@ -608,8 +603,7 @@ public class MainActivity extends AppCompatActivity implements IPFragment.IPDial
             t.setOnStopTrackEventListener(new Eventos() {
                 @Override
                 public void onStopTrack(Float xDown, Float yDown, Float x, Float y) {
-                    Toast toast = Toast.makeText(getApplicationContext(), "Parcela: " + xDown + yDown + x + y, Toast.LENGTH_LONG);
-                    toast.show();
+                    System.out.println("Parcela: " + xDown + yDown + x + y);
                     CallWS cws = new CallWS();
                     Map<String, Float> parametrosArea = new HashMap<>();
                     parametrosArea.put("xmin", xDown.intValue() / 1000f);
@@ -640,7 +634,7 @@ public class MainActivity extends AppCompatActivity implements IPFragment.IPDial
                         t.setVacasInOut(vacasIDIn, vacasIDOut);
                         t.drawVacas(true);
                     } catch (JSONException e) {
-                        toast = Toast.makeText(getApplicationContext(), "JSON Malformado " + e.getMessage(), Toast.LENGTH_LONG);
+                        Toast toast = Toast.makeText(getApplicationContext(), "JSON Malformado " + e.getMessage(), Toast.LENGTH_LONG);
                         toast.show();
                     }
                 }
@@ -692,12 +686,10 @@ public class MainActivity extends AppCompatActivity implements IPFragment.IPDial
                 t.setAction(Consultas.TRAYECTORIA);
                 t.setTrayectoria(vacaID, trayectorias);
                 t.drawVacas(true);
-                //sheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
             } catch (JSONException e) {
                 Toast toast = Toast.makeText(getApplicationContext(), "JSON Malformado " + e.getMessage(), Toast.LENGTH_LONG);
                 toast.show();
             }
-
         }
     }
 
@@ -757,7 +749,6 @@ public class MainActivity extends AppCompatActivity implements IPFragment.IPDial
                     //JSONObject vecinos = comederos.getJSONObject("Vecino");
                 }
 
-                //TODO revisar set action
                 t.setAction(Consultas.VECINOS);
                 t.drawVacas(true);
             } catch (JSONException e) {
@@ -769,6 +760,18 @@ public class MainActivity extends AppCompatActivity implements IPFragment.IPDial
 
     @Override
     public void onDialogNegativeClickVecinos(DialogFragment dialog) {
+
+    }
+
+    @Override
+    public void onDialogPositiveClickBuscar(DialogFragment dialog) {
+        int vacaID = ((BuscarFragment)dialog).getVacaID();
+        t.setVacaShow(vacaID);
+        vacaChosen(vacaID);
+    }
+
+    @Override
+    public void onDialogNegativeClickBuscar(DialogFragment dialog) {
 
     }
 }
